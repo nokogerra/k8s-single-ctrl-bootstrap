@@ -1,0 +1,26 @@
+# code: language=ansible
+---
+- name: "Disable UFW"
+  ansible.builtin.include_tasks: disable_ufw.yml
+
+- name: "Configure k8s and docker repositories"
+  ansible.builtin.include_tasks: configure_repositories.yml
+  loop: "{{ k8s_prep_node_repos }}"
+
+- name: "Disable linux swap"
+  ansible.builtin.include_tasks: disable_swap.yml
+
+- name: "Install k8s and containerd packages"
+  ansible.builtin.include_tasks: install_and_hold_packages.yml
+  loop: "{{ k8s_prep_node_packages }}"
+
+- name: "Show held packages"
+  ansible.builtin.include_tasks: show_held_packages.yml
+
+- name: "Load kernel modules needed by containerd permanently"
+  ansible.builtin.include_tasks: kernel_modules_load_permanently.yml
+
+- name: "Configure sysctl parameters needed by containerd"
+  ansible.builtin.include_tasks: configure_sysctl_params.yml
+  loop: "{{ k8s_prep_node_sysctl_params }}"
+  

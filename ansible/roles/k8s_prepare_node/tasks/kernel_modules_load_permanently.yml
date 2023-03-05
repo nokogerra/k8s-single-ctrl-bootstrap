@@ -1,0 +1,7 @@
+# code: language=ansible
+---
+- name: "Create kernel modules auto-load config"
+  ansible.builtin.template:
+    src: "containerd_kernel_modules.j2"
+    dest: "{{ k8s_prep_node_kernel_modules_config }}"
+    notify: "Restart systemd-modules-load"

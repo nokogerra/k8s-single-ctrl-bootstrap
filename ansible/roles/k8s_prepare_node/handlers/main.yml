@@ -1,0 +1,11 @@
+# code: language=ansible
+---
+- name: "Restart systemd-modules-load"
+  ansible.builtin.service:
+    name: systemd-modules-load.service
+    state: restarted
+
+- name: "Restart containerd"
+  ansible.builtin.service:
+    name: containerd.service
+    state: restarted

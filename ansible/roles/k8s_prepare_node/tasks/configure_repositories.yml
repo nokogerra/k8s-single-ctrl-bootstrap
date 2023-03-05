@@ -1,0 +1,12 @@
+# code: language=ansible
+---
+- name: "Add k8s and docker repos keys"
+  ansible.builtin.apt_key:
+    url: "{{ item.key_url }}"
+    keyring: "/etc/apt/keyrings/{{ item.key_file }}"
+
+- name: "Add k8s and docker repositories"
+  ansible.builtin.apt_repository:
+    repo: "{{ item.repo_string }}"
+    filename: "{{ item.repo_file }}"
+    state: present

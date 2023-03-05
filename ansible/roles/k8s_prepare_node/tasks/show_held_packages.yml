@@ -1,0 +1,10 @@
+# code: language=ansible
+---
+- name: "Get held packages"
+  ansible.builtin.command: apt-mark showhold
+  register: held_packages
+  changed_when: false
+
+- name: "Show held packages"
+  ansible.builtin.debug:
+    msg: "{{ held_packages.stdout_lines }}"

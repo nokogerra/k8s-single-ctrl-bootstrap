@@ -1,0 +1,7 @@
+# code: language=ansible
+---
+- name: "Prepare nodes for bootstraping a k8s cluster"
+  hosts: all
+  force_handlers: true
+  roles:
+  

@@ -1,0 +1,13 @@
+# code: language=ansible
+---
+- name: "Install k8s and containerd packages"
+  ansible.builtin.apt:
+    name: "{{ item.name }}={{ item.version }}"
+    state: present
+    update_cache: true
+    allow_downgrade: true
+
+- name: "Hold installed k8s and containerd packages"
+  ansible.builtin.dpkg_selections:
+    name: "{{ item.name }}"
+    selection: hold
