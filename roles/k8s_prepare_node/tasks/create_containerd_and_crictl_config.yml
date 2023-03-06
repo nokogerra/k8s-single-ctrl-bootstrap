@@ -1,0 +1,12 @@
+# code: language=ansible
+---
+- name: "Create containerd configuration"
+  ansible.builtin.copy:
+    src: containerd_conf.toml
+    dest: /etc/containerd/config.toml
+  notify: Restart containerd
+
+- name: "Create crictl configuration"
+  ansible.builtin.copy:
+    src: crictl.yaml
+    dest: /etc/crictl.yaml

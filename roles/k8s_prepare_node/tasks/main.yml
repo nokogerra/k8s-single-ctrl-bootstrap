@@ -10,7 +10,7 @@
 - name: "Disable linux swap"
   ansible.builtin.include_tasks: disable_swap.yml
 
-- name: "Install k8s and containerd packages"
+- name: "Install k8s and containerd packages and put them on hold"
   ansible.builtin.include_tasks: install_and_hold_packages.yml
   loop: "{{ k8s_prep_node_packages }}"
 
@@ -23,4 +23,9 @@
 - name: "Configure sysctl parameters needed by containerd"
   ansible.builtin.include_tasks: configure_sysctl_params.yml
   loop: "{{ k8s_prep_node_sysctl_params }}"
-  
+
+- name: "Create containerd and crictl configuration"
+  ansible.builtin.include_tasks: create_containerd_and_crictl_config.yml
+
+- name: "Enable autocompletion for kubeadm, kubectl and crictl"
+  ansible.builtin.include_tasks: make_autocompletion.yml

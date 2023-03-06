@@ -4,4 +4,7 @@
   ansible.builtin.template:
     src: "containerd_kernel_modules.j2"
     dest: "{{ k8s_prep_node_kernel_modules_config }}"
-    notify: "Restart systemd-modules-load"
+  notify: "Restart systemd-modules-load"
+
+- name: "Trigger the handler"
+  ansible.builtin.meta: refresh_inventory

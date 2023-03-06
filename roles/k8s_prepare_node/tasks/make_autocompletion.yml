@@ -1,0 +1,13 @@
+# code: language=ansible
+---
+- name: "Make kubectl autocompletion"
+  ansible.builtin.shell: kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
+  changed_when: false
+
+- name: "Make kubeadm autocompletion"
+  ansible.builtin.shell: kubeadm completion bash | sudo tee /etc/bash_completion.d/kubeadm > /dev/null
+  changed_when: false
+
+- name: "Make crictl autocompletion"
+  ansible.builtin.shell: crictl completion | sudo tee /etc/bash_completion.d/crictl > /dev/null
+  changed_when: false

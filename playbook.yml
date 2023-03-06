@@ -4,4 +4,4 @@
   hosts: all
   force_handlers: true
   roles:
-  
+    - k8s_prepare_node
