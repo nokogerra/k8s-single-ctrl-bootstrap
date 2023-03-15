@@ -1,0 +1,17 @@
+# code: language=ansible
+---
+- name: "Prepare nodes for bootstraping a k8s cluster"
+  hosts: all
+  vars:
+    k8s_prep_node_packages:
+      - name: "containerd.io"
+        version: "1.6.4-1"
+      - name: "kubelet"
+        version: "1.22.0-00"
+      - name: "kubeadm"
+        version: "1.22.0-00"
+      - name: "kubectl"
+        version: "1.22.0-00"
+  force_handlers: true
+  roles:
+    - k8s_prepare_node
