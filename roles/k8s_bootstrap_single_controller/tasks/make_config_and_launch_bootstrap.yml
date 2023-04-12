@@ -1,0 +1,74 @@
+# code: language=ansible
+---
+- name: "Make cluster init config from the template"
+  become: false
+  ansible.builtin.template:
+    src: "cluster_config.yml.j2"
+    dest: "~/cluster_config.yml"
+
+- name: "Launch bootstrap"
+  ansible.builtin.command: "sudo kubeadm init --config=cluster_config.yml"
+  register: init_result
+
+- name: "Save init result to log on localhost"
+  become: false
+  delegate_to: localhost
+  ansible.builtin.copy:
+    content: "{{ init_result.stdout }}"
+    dest: "./kube_init.log"
+
+- name: "Check if cluster initialization was successfull"
+  ansible.builtin.debug:
+    msg: "Controller was initialized successfully! Log: ./kube_init.log"
+  when: init_result.stdout | regex_search("Your Kubernetes control-plane has initialized successfully!")
+
+- name: "Get the workers join token"
+  become: false
+  delegate_to: localhost
+  shell: grep -A 2 "kubeadm join" ./kube_init.log | tail -n 2 | sed 's/\\//g' | tr -d '\t' | tr -d '\n'
+  register: worker_join_token
+
+- name: "Show the join token"
+  ansible.builtin.debug:
+    msg: "{{ worker_join_token.stdout }}"
+
+- name: "Create kube directory in the home dir on the remote host (k8s controller)"
+  become: false
+  ansible.builtin.file:
+    name: "/home/{{ ansible_user }}/.kube"
+    state: directory
+
+- name: "Copy k8s admin config from /etc/kubernetes to the home directory"
+  ansible.builtin.copy:
+    src: /etc/kubernetes/admin.conf
+    remote_src: true
+    dest: "/home/{{ ansible_user }}/.kube/config"
+
+- name: "Fix k8s config owner"
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.kube/config"
+    owner: "{{ ansible_user }}"
+
+- name: "Wait for control plane pods and kube-proxy to be ready"
+  become: false
+  kubernetes.core.k8s_info:
+    kubeconfig: "/home/{{ ansible_user }}/.kube/config"
+    kind: Pod
+    wait: true
+    label_selectors: "{{ item }}"
+    wait_timeout: 300
+    wait_sleep: 3
+    wait_condition:
+      type: Ready
+      status: "True"
+  loop:
+    - tier=control-plane
+    - k8s-app=kube-proxy
+
+- name: "Restart kubelet and containerd"
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: restarted
+  loop:
+    - kubelet
+    - containerd

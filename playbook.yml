@@ -15,3 +15,14 @@
   force_handlers: true
   roles:
     - k8s_prepare_node
+
+- name: "Bootstrap k8s cluster and configure calico"
+  hosts: kube_ctrl[0]
+  roles:
+    - k8s_bootstrap_single_controller
+    - k8s_addon_calico
+
+- name: "Add worker nodes"
+  hosts: kube_workers
+  roles:
+    - k8s_add_worker_node

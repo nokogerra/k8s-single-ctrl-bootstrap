@@ -1,0 +1,6 @@
+# code: language=ansible
+---
+k8s_addon_calico_version: "v3.25.1"
+k8s_addon_calico_cidr: "10.117.0.0/16"
+k8s_addon_calico_block_size: "26"
+k8s_addon_calico_kube_config: "/home/{{ ansible_user }}/.kube/config"

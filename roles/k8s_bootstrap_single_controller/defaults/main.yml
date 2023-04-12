@@ -1,0 +1,8 @@
+# code: language=ansible
+---
+k8s_bootstrap_single_controller_cluster_domain: "cluster.local"
+k8s_bootstrap_single_controller_service_subnet: "10.96.0.0/12"
+k8s_bootstrap_single_controller_k8s_version: "1.22.0"
+k8s_bootstrap_single_controller_cluster_name: "my-test-cluster"
+k8s_bootstrap_single_controller_pod_subnet: "10.117.0.0/16"
+k8s_bootstrap_single_controller_pod_subnet_prefix: "16"

@@ -1,0 +1,19 @@
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  # Configures Calico networking.
+  calicoNetwork:
+    ipPools:
+    - blockSize: {{ k8s_addon_calico_block_size }}
+      cidr: {{ k8s_addon_calico_cidr }}
+      encapsulation: VXLAN
+      natOutgoing: Enabled
+      nodeSelector: all()
+---
+apiVersion: operator.tigera.io/v1
+kind: APIServer 
+metadata: 
+  name: default 
+spec: {}

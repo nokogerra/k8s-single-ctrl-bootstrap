@@ -12,15 +12,25 @@ k8s_prep_node_repos:
     repo_string: "deb [signed-by=/etc/apt/keyrings/kubernetes.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"
     repo_file: kubernetes
 
-k8s_prep_node_packages:
+k8s_prep_node_k8s_packages:
   - name: "containerd.io"
     version: "1.6.4-1"
   - name: "kubelet"
-    version: "1.21.0-00"
+    version: "1.22.0-00"
   - name: "kubeadm"
-    version: "1.21.0-00"
+    version: "1.22.0-00"
   - name: "kubectl"
-    version: "1.21.0-00"
+    version: "1.22.0-00"
+
+k8s_prep_node_common_packages:
+  - sshpass
+  - whois
+  - python-pip
+  - python3-pip
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - jq
 
 k8s_prep_node_kernel_modules:
   - overlay
@@ -32,3 +42,7 @@ k8s_prep_node_sysctl_params:
   - net.bridge.bridge-nf-call-iptables
   - net.ipv4.ip_forward
   - net.bridge.bridge-nf-call-ip6tables
+
+k8s_prep_node_pip_modules:
+  - kubernetes
+  - yq

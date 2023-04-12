@@ -1,0 +1,12 @@
+# code: language=ansible
+---
+- name: "Run kubeadm reset"
+  ansible.builtin.command: kubeadm reset -f
+
+- name: "Remove k8s and CNI artifacts"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/cni/net.d/
+    - /etc/kubernetes/tmp/

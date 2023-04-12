@@ -10,9 +10,9 @@ This role can prepare your Ubuntu 20.04/22.04 (Focal/Jammy) for k8s cluster boot
 - enable autocompletion for kubectl, kubeadm and crictl.
 
 For the complete list of variables check main.yml in defaults/.<br />
-The main variable you **want** to define is k8s_prep_node_packages:
+The main variable you **want** to define is k8s_prep_node_k8s_packages:
 ```
-k8s_prep_node_packages:
+k8s_prep_node_k8s_packages:
   - name: "containerd.io"
     version: "1.6.4-1"
   - name: "kubelet"

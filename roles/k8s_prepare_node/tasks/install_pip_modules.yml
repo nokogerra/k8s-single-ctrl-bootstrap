@@ -1,0 +1,5 @@
+# code: language=ansible
+---
+- name: "Install pip modules"
+  ansible.builtin.pip:
+    name: "{{ item }}"

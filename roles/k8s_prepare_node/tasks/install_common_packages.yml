@@ -1,0 +1,8 @@
+# code: language=ansible
+---
+- name: "Install common packages"
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+    allow_downgrade: true

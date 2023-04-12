@@ -1,0 +1,15 @@
+#- name: asd
+#  hosts: kube_ctrl[0]
+#  tasks:
+#    - name: "Get the join token"
+#      command: echo "Hello world"
+#      register: tempx
+#
+- name: "2"
+  hosts: kube_workers
+  tasks:
+    - name: "debug"
+      delegate_to: kube_ctrl[0]
+      debug:
+        #msg: "/home/{{ hostvars[groups['kube_workers'][0]]['ansible_user'] }}/.kube/config"
+        msg: "/home/{{ ansible_user }}/.kube/config"

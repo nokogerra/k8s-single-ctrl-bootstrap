@@ -1,0 +1,7 @@
+# code: language=ansible
+---
+- name: "Clean up the previous k8s installation if it's present"
+  ansible.builtin.include_tasks: reset_previous_k8s_installation.yml
+
+- name: "Make init config from the template and run the controller bootstrap"
+  ansible.builtin.include_tasks: make_config_and_launch_bootstrap.yml

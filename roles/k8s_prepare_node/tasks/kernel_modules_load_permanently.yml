@@ -7,4 +7,4 @@
   notify: "Restart systemd-modules-load"
 
 - name: "Trigger the handler"
-  ansible.builtin.meta: refresh_inventory
+  ansible.builtin.meta: flush_handlers

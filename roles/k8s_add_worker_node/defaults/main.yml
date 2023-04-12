@@ -1,0 +1,5 @@
+# code: language=ansible
+---
+#k8s_add_worker_node_kube_config: "/home/{{ hostvars[groups['kube_workers'][0]]['ansible_user'] }}/.kube/config"
+k8s_add_worker_node_kube_config: "/home/{{ ansible_user }}/.kube/config"
+k8s_add_worker_node_join_token: ""
